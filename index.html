@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hoganv.com</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="styles.css">
     <!-- Add the reCAPTCHA v2 API script -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -19,18 +20,15 @@
             <!-- LinkedIn Button -->
             <a href="https://www.linkedin.com/in/hoganv" class="btn">Visit my LinkedIn</a>
             
-            <!-- Email Button -->
-            <a href="mailto:hogan@hoganv.com" class="btn">Email Me</a>
+            <!-- Email Button (displays email on click) -->
+            <button class="btn" id="email-button" onclick="showEmail()">Email Me</button>
 
-            <!-- Phone Number Button -->
-            <a href="javascript:void(0);" class="btn" id="phone-button" onclick="showCaptcha()">Show Phone Number</a>
-            
-            <!-- Hidden phone number (initially hidden) -->
-            <a href="tel:+14026822997" id="decoded-number" class="btn" style="display: none;">Call Me: (402) 682-2997</a>
+            <!-- Phone Button (displays phone number after CAPTCHA verification) -->
+            <button class="btn" id="phone-button" onclick="showCaptcha()">Show Phone Number</button>
         </div>
 
-        <!-- reCAPTCHA widget -->
-        <div class="g-recaptcha" id="recaptcha-box" data-sitekey="6LeB33AqAAAAACH5yMQwLR7krQKocS5VhhQIQYyD" data-callback="captchaCallback" style="display:none;"></div>
+        <!-- reCAPTCHA widget centered in container -->
+        <div class="g-recaptcha center-captcha" id="recaptcha-box" data-sitekey="6LeB33AqAAAAACH5yMQwLR7krQKocS5VhhQIQYyD" data-callback="captchaCallback" style="display:none;"></div>
     </div>
 
     <!-- Circle hover effect -->
@@ -39,6 +37,30 @@
     <script>
         let isCaptchaVerified = false; // Flag to prevent re-triggering CAPTCHA after it's verified
 
+        // Show the email address on the "Email Me" button when clicked
+        function showEmail() {
+            const emailButton = document.getElementById('email-button');
+            emailButton.textContent = "hogan@hoganv.com";
+        }
+
+        // Show the CAPTCHA if it hasn't been verified
+        function showCaptcha() {
+            if (!isCaptchaVerified) {
+                document.getElementById('recaptcha-box').style.display = 'block';
+            }
+        }
+
+        // CAPTCHA success callback
+        function captchaCallback() {
+            // Show the phone number on the button after verification
+            const phoneButton = document.getElementById('phone-button');
+            phoneButton.textContent = "(402) 682-2997";
+            phoneButton.setAttribute("onclick", "window.location.href='tel:+14026822997'");
+            document.getElementById('recaptcha-box').style.display = 'none';
+            isCaptchaVerified = true; // Mark CAPTCHA as verified
+        }
+
+        // Circle hover effect script
         const circle = document.getElementById('circle');
 
         function centerCircle() {
@@ -56,21 +78,6 @@
         });
 
         window.addEventListener('resize', centerCircle);
-
-        // Function to show CAPTCHA if it hasn't been verified yet
-        function showCaptcha() {
-            if (!isCaptchaVerified) {
-                document.getElementById('recaptcha-box').style.display = 'block';
-            }
-        }
-
-        // CAPTCHA success callback
-        function captchaCallback() {
-            // Reveal the phone number and disable further CAPTCHA triggers
-            document.getElementById('decoded-number').style.display = 'block';
-            document.getElementById('recaptcha-box').style.display = 'none';
-            isCaptchaVerified = true; // Mark CAPTCHA as verified
-        }
     </script>
 </body>
 </html>
