@@ -20,7 +20,8 @@
         <!-- Button to trigger the reCAPTCHA -->
         <div class="link-container">
             <a href="javascript:void(0);" class="btn" id="phone-button" onclick="showCaptcha()">Show Phone Number</a>
-            <a href="tel:" id="decoded-number" class="btn" style="display: none;"></a>
+            <!-- Hidden phone number (initially hidden) -->
+            <a href="tel:+14026822997" id="decoded-number" class="btn" style="display: none;">Call Me: (402) 682-2997</a>
         </div>
 
         <!-- reCAPTCHA widget -->
@@ -69,19 +70,9 @@
             document.getElementById('recaptcha-box').style.display = 'block';
         }
 
-        function decodeString(encoded) {
-            return encoded.split('').map(char => {
-                return /\d/.test(char) ? String.fromCharCode(char.charCodeAt(0) - 3) : char;
-            }).join('');
-        }
-
         // CAPTCHA success callback
         function captchaCallback() {
-            const encodedPhone = "(735) 953-5220";
-            const decodedPhone = decodeString(encodedPhone);
-
-            document.getElementById('decoded-number').textContent = "Call Me: " + decodedPhone;
-            document.getElementById('decoded-number').href = "tel:" + decodedPhone.replace(/[^0-9]/g, ""); // Only digits for the href link
+            // Reveal the phone number
             document.getElementById('decoded-number').style.display = 'block';
             document.getElementById('recaptcha-box').style.display = 'none';
         }
