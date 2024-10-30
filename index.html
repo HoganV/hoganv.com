@@ -37,6 +37,8 @@
     <div id="circle"></div>
 
     <script>
+        let isCaptchaVerified = false; // Flag to prevent re-triggering CAPTCHA after it's verified
+
         const circle = document.getElementById('circle');
 
         function centerCircle() {
@@ -55,16 +57,19 @@
 
         window.addEventListener('resize', centerCircle);
 
-        // Function to show CAPTCHA
+        // Function to show CAPTCHA if it hasn't been verified yet
         function showCaptcha() {
-            document.getElementById('recaptcha-box').style.display = 'block';
+            if (!isCaptchaVerified) {
+                document.getElementById('recaptcha-box').style.display = 'block';
+            }
         }
 
         // CAPTCHA success callback
         function captchaCallback() {
-            // Reveal the phone number
+            // Reveal the phone number and disable further CAPTCHA triggers
             document.getElementById('decoded-number').style.display = 'block';
             document.getElementById('recaptcha-box').style.display = 'none';
+            isCaptchaVerified = true; // Mark CAPTCHA as verified
         }
     </script>
 </body>
