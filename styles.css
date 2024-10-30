@@ -71,6 +71,7 @@ p {
 .center-captcha {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%; /* Full width of the container */
     margin-top: 15px;
 }
