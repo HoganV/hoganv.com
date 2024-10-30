@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>404 - Page Not Found</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>404 - Page Not Found</h1>
+        <p>Oops! The page you're looking for doesn't exist.</p>
+
+        <div class="link-container">
+            <a href="/" class="btn">Go to Homepage</a>
+        </div>
+    </div>
+
+    <!-- Black circle for hover effect -->
+    <div id="circle"></div>
+
+    <script>
+        // Get the circle element
+        const circle = document.getElementById('circle');
+
+        // Function to center the circle initially
+        function centerCircle() {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            circle.style.left = `${centerX}px`;
+            circle.style.top = `${centerY}px`;
+        }
+
+        // Center the circle on page load
+        centerCircle();
+
+        // Update circle position on mousemove
+        document.addEventListener('mousemove', (e) => {
+            circle.style.left = `${e.pageX}px`;
+            circle.style.top = `${e.pageY}px`;
+        });
+
+        // Adjust circle position if the window is resized
+        window.addEventListener('resize', centerCircle);
+    </script>
+</body>
+</html>
