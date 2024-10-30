@@ -6,25 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hoganv.com</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Add the reCAPTCHA v2 API script -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to hoganv.com</h1>
         <p>Please visit the links below to reach me.</p>
 
+        <!-- Links container for LinkedIn and Email -->
         <div class="link-container" id="all-links"></div>
+
+        <!-- Button to trigger the reCAPTCHA -->
+        <div class="link-container">
+            <a href="javascript:void(0);" class="btn" id="phone-button" onclick="onClick()">Show Phone Number</a>
+            <!-- Hidden phone number (initially hidden) -->
+            <a href="tel:+1234567890" id="phone-number" class="btn" style="display: none;">Call Me: +1 (234) 567-890</a>
+        </div>
+
+        <!-- reCAPTCHA widget -->
+        <div class="g-recaptcha" id="recaptcha-container" data-sitekey="6LeB33AqAAAAACH5yMQwLR7krQKocS5VhhQIQYyD" data-callback="onCaptchaSuccess" style="display:none;"></div>
     </div>
 
     <!-- Black circle for hover effect -->
     <div id="circle"></div>
 
     <script>
-        // JavaScript to add links and handle circle effect
+        // Links setup for LinkedIn and Email
         const links = [
             { url: 'https://www.linkedin.com/in/hoganv', text: 'Visit my LinkedIn' },
-            { url: 'mailto:hogan@hoganv.com', text: 'Email Me' },
-            //{ url: 'https://example.com/blog', text: 'Read my Blog' },
-            //{ url: 'mailto:your.email@example.com', text: 'Send me an Email' } // Email link
+            { url: 'mailto:hogan@hoganv.com', text: 'Email Me' }
         ];
 
         const linkContainer = document.getElementById('all-links');
@@ -37,10 +48,9 @@
             linkContainer.appendChild(a);
         });
 
-        // Get the circle element
+        // Circle effect setup
         const circle = document.getElementById('circle');
 
-        // Function to center the circle initially
         function centerCircle() {
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
@@ -48,17 +58,26 @@
             circle.style.top = `${centerY}px`;
         }
 
-        // Center the circle on page load
         centerCircle();
 
-        // Update circle position on mousemove
         document.addEventListener('mousemove', (e) => {
             circle.style.left = `${e.pageX}px`;
             circle.style.top = `${e.pageY}px`;
         });
 
-        // Adjust circle position if the window is resized
         window.addEventListener('resize', centerCircle);
+
+        // reCAPTCHA v2 logic
+        function onClick() {
+            // Show the reCAPTCHA widget when the button is clicked
+            document.getElementById('recaptcha-container').style.display = 'block';
+        }
+
+        function onCaptchaSuccess() {
+            // After CAPTCHA is successfully completed, reveal the phone number
+            document.getElementById('phone-number').style.display = 'block';
+            document.getElementById('recaptcha-container').style.display = 'none'; // Hide the CAPTCHA
+        }
     </script>
 </body>
 </html>
