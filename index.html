@@ -20,8 +20,7 @@
         <!-- Button to trigger the reCAPTCHA -->
         <div class="link-container">
             <a href="javascript:void(0);" class="btn" id="phone-button" onclick="onClick()">Show Phone Number</a>
-            <!-- Hidden phone number (initially hidden) -->
-            <a href="tel:+1234567890" id="phone-number" class="btn" style="display: none;">Call Me: +1 (234) 567-890</a>
+            <a href="tel:" id="phone-number" class="btn" style="display: none;"></a>
         </div>
 
         <!-- reCAPTCHA widget -->
@@ -73,10 +72,20 @@
             document.getElementById('recaptcha-container').style.display = 'block';
         }
 
+        // Phone number obfuscation logic
+        function decodePhoneNumber(encoded) {
+            return encoded.split('').map(function(char) {
+                return String.fromCharCode(char.charCodeAt(0) - 5); // Decode by subtracting 5
+            }).join('');
+        }
+
         function onCaptchaSuccess() {
-            // After CAPTCHA is successfully completed, reveal the phone number
+            const encodedPhoneNumber = "(953) 7=7-7<<<";
+            const decodedPhoneNumber = decodePhoneNumber(encodedPhoneNumber);
+            document.getElementById('phone-number').textContent = "Call Me: " + decodedPhoneNumber;
+            document.getElementById('phone-number').href = "tel:" + decodedPhoneNumber.replace(/[^0-9]/g, "");
             document.getElementById('phone-number').style.display = 'block';
-            document.getElementById('recaptcha-container').style.display = 'none'; // Hide the CAPTCHA
+            //document.getElementById('recaptcha-container').style.display = 'none';
         }
     </script>
 </body>
