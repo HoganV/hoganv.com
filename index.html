@@ -72,20 +72,19 @@
             document.getElementById('recaptcha-container').style.display = 'block';
         }
 
-        // Phone number obfuscation logic
         function decodePhoneNumber(encoded) {
-            return encoded.split('').map(function(char) {
-                return String.fromCharCode(char.charCodeAt(0) - 5); // Decode by subtracting 5
-            }).join('');
+            return encoded.replace(/[0-9]/g, function(digit) {
+                return String.fromCharCode(digit.charCodeAt(0) - 5);
+            });
         }
 
         function onCaptchaSuccess() {
-            const encodedPhoneNumber = "(953) 7=7-7<<<";
+            const encodedPhoneNumber = "(953) 7=7-7<<7";
             const decodedPhoneNumber = decodePhoneNumber(encodedPhoneNumber);
             document.getElementById('phone-number').textContent = "Call Me: " + decodedPhoneNumber;
-            document.getElementById('phone-number').href = "tel:" + decodedPhoneNumber.replace(/[^0-9]/g, "");
+            document.getElementById('phone-number').href = "tel:" + decodedPhoneNumber.replace(/[^0-9]/g, ""); // Only numbers in href
             document.getElementById('phone-number').style.display = 'block';
-            //document.getElementById('recaptcha-container').style.display = 'none';
+            document.getElementById('recaptcha-container').style.display = 'none'; // Hide the CAPTCHA
         }
     </script>
 </body>
