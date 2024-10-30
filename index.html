@@ -14,12 +14,17 @@
         <h1>Welcome to hoganv.com</h1>
         <p>Please visit the links below to reach me.</p>
 
-        <!-- Links container for LinkedIn and Email -->
-        <div class="link-container" id="all-links"></div>
-
-        <!-- Button to trigger the reCAPTCHA -->
+        <!-- All buttons together in one container -->
         <div class="link-container">
+            <!-- LinkedIn Button -->
+            <a href="https://www.linkedin.com/in/hoganv" class="btn">Visit my LinkedIn</a>
+            
+            <!-- Email Button -->
+            <a href="mailto:hogan@hoganv.com" class="btn">Email Me</a>
+
+            <!-- Phone Number Button -->
             <a href="javascript:void(0);" class="btn" id="phone-button" onclick="showCaptcha()">Show Phone Number</a>
+            
             <!-- Hidden phone number (initially hidden) -->
             <a href="tel:+14026822997" id="decoded-number" class="btn" style="display: none;">Call Me: (402) 682-2997</a>
         </div>
@@ -32,21 +37,6 @@
     <div id="circle"></div>
 
     <script>
-        // Set up the basic links
-        const linkItems = [
-            { url: 'https://www.linkedin.com/in/hoganv', text: 'Visit my LinkedIn' },
-            { url: 'mailto:hogan@hoganv.com', text: 'Email Me' }
-        ];
-
-        const linkContainer = document.getElementById('all-links');
-        linkItems.forEach(link => {
-            const linkElement = document.createElement('a');
-            linkElement.href = link.url;
-            linkElement.textContent = link.text;
-            linkElement.className = 'btn';
-            linkContainer.appendChild(linkElement);
-        });
-
         const circle = document.getElementById('circle');
 
         function centerCircle() {
