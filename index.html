@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Enhanced viewport tag to control scaling on different devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>hoganv.com</title>
@@ -41,9 +40,10 @@
 
         // Show email after CAPTCHA verification
         function showEmail() {
+            const emailButton = document.getElementById('email-button');
             if (isCaptchaVerified) {
-                const emailButton = document.getElementById('email-button');
                 emailButton.textContent = "hogan@hoganv.com";
+                emailButton.onclick = () => copyToClipboard("hogan@hoganv.com", emailButton);
             } else {
                 currentAction = 'email';
                 showCaptcha();
@@ -52,10 +52,10 @@
 
         // Show phone number after CAPTCHA verification
         function showCaptcha() {
+            const phoneButton = document.getElementById('phone-button');
             if (isCaptchaVerified) {
-                const phoneButton = document.getElementById('phone-button');
                 phoneButton.textContent = "(402) 682-2997";
-                phoneButton.setAttribute("onclick", "window.location.href='tel:+14026822997'");
+                phoneButton.onclick = () => copyToClipboard("(402) 682-2997", phoneButton);
             } else {
                 document.getElementById('recaptcha-box').style.display = 'flex';
             }
@@ -72,6 +72,19 @@
                 showCaptcha();
             }
             currentAction = null; // Reset action tracking
+        }
+
+        // Copy text to clipboard and show temporary "Copied!" message
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = "Copied!";
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 1500); // Display "Copied!" for 1.5 seconds
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
+            });
         }
 
         // Circle hover effect script
