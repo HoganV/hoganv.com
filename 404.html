@@ -4,39 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hoganv.com</title>
+    <title>404 - Page Not Found</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to hoganv.com</h1>
-        <p>Please visit the links below to reach me.</p>
+        <h1>404 - Page Not Found</h1>
+        <p>Oops! The page you're looking for doesn't exist.</p>
 
-        <div class="link-container" id="all-links"></div>
+        <div class="link-container">
+            <a href="/" class="btn">Go to Homepage</a>
+        </div>
     </div>
 
     <!-- Black circle for hover effect -->
     <div id="circle"></div>
 
     <script>
-        // JavaScript to add links and handle circle effect
-        const links = [
-            { url: 'https://www.linkedin.com/in/hoganv', text: 'Visit my LinkedIn' },
-            { url: 'mailto:hogan@hoganv.com', text: 'Email Me' },
-            //{ url: 'https://example.com/blog', text: 'Read my Blog' },
-            //{ url: 'mailto:your.email@example.com', text: 'Send me an Email' } // Email link
-        ];
-
-        const linkContainer = document.getElementById('all-links');
-
-        links.forEach(link => {
-            const a = document.createElement('a');
-            a.href = link.url;
-            a.textContent = link.text;
-            a.className = 'btn';
-            linkContainer.appendChild(a);
-        });
-
         // Get the circle element
         const circle = document.getElementById('circle');
 
