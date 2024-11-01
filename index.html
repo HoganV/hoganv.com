@@ -7,7 +7,6 @@
     <title>hoganv.com</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="styles.css">
-    <!-- Add the reCAPTCHA v2 API script -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
@@ -15,122 +14,110 @@
         <h1>Welcome to hoganv.com</h1>
         <p>Please visit the links below to reach me.</p>
 
-        <!-- All buttons together in one container -->
         <div class="link-container">
-            <!-- LinkedIn Button -->
             <a href="https://www.linkedin.com/in/hoganv" class="btn">Visit my LinkedIn</a>
-            
-            <!-- Email Button (requires CAPTCHA to display email) -->
             <button class="btn" id="email-button" onclick="showEmail()">Email Me</button>
-
-            <!-- Phone Button (requires CAPTCHA to display phone number) -->
-            <button class="btn" id="phone-button" onclick="showCaptcha()">Show Phone Number</button>
+            <button class="btn" id="phone-button" onclick="showPhone()">Show Phone Number</button>
         </div>
 
-        <!-- reCAPTCHA widget centered in container -->
         <div class="g-recaptcha center-captcha" id="recaptcha-box" data-sitekey="6LeB33AqAAAAACH5yMQwLR7krQKocS5VhhQIQYyD" data-callback="captchaCallback" style="display:none;"></div>
     </div>
 
-    <!-- Circle hover effect -->
     <div id="circle"></div>
 
-<script>
-    // Encoded values 
-    const encodedEmail = "krjdq@krjdqy.frp";
-    const encodedPhone = "(735) 915-5220"; 
-    
-    let isCaptchaVerified = false; // Flag for CAPTCHA verification
-    let currentAction = null; // Track which action triggered CAPTCHA
+    <script>
+        const encodedEmail = "krjdq@krjdqy.frp";
+        const encodedPhone = "(735) 915-5220"; 
+        
+        let isCaptchaVerified = false;
+        let currentAction = null;
 
-    // Function to show email after CAPTCHA verification
-    function showEmail() {
-        const emailButton = document.getElementById('email-button');
-        if (isCaptchaVerified) {
-            const decodedEmail = caesarShift(encodedEmail, -3); // Decode email
-            emailButton.textContent = decodedEmail;
-            emailButton.onclick = () => copyToClipboard(decodedEmail, emailButton);
-        } else {
-            currentAction = 'email';
-            showCaptcha();
+        function showEmail() {
+            const emailButton = document.getElementById('email-button');
+            if (isCaptchaVerified) {
+                const decodedEmail = caesarShift(encodedEmail, -3);
+                emailButton.textContent = decodedEmail;
+                emailButton.onclick = () => copyToClipboard(decodedEmail, emailButton);
+            } else {
+                currentAction = 'email';
+                showCaptcha();
+            }
         }
-    }
 
-    // Function to show phone after CAPTCHA verification
-    function showCaptcha() {
-        const phoneButton = document.getElementById('phone-button');
-        if (isCaptchaVerified) {
-            const decodedPhone = caesarShift(encodedPhone, -3); // Decode phone
-            phoneButton.textContent = decodedPhone;
-            phoneButton.onclick = () => copyToClipboard(decodedPhone, phoneButton);
-        } else {
+        function showPhone() {
+            const phoneButton = document.getElementById('phone-button');
+            if (isCaptchaVerified) {
+                const decodedPhone = caesarShift(encodedPhone, -3);
+                phoneButton.textContent = decodedPhone;
+                phoneButton.onclick = () => copyToClipboard(decodedPhone, phoneButton);
+            } else {
+                currentAction = 'phone';
+                showCaptcha();
+            }
+        }
+
+        function showCaptcha() {
             document.getElementById('recaptcha-box').style.display = 'flex';
         }
-    }
 
-    // CAPTCHA success callback function
-    function captchaCallback() {
-        document.getElementById('recaptcha-box').style.display = 'none';
-        isCaptchaVerified = true; // Mark CAPTCHA as verified
+        function captchaCallback() {
+            document.getElementById('recaptcha-box').style.display = 'none';
+            isCaptchaVerified = true;
 
-        if (currentAction === 'email') {
-            showEmail();
-        } else if (currentAction === 'phone') {
-            showCaptcha();
-        }
-        currentAction = null;
-    }
-
-    // Function to apply Caesar shift to alphanumeric characters only
-    function caesarShift(str, amount) {
-        return str.replace(/[a-zA-Z0-9]/g, (char) => {
-            let code = char.charCodeAt(0);
-            if (char >= 'a' && char <= 'z') {
-                code = ((code - 97 + amount + 26) % 26) + 97;
-            } else if (char >= 'A' && char <= 'Z') {
-                code = ((code - 65 + amount + 26) % 26) + 65;
-            } else if (char >= '0' && char <= '9') {
-                code = ((code - 48 + amount + 10) % 10) + 48;
+            if (currentAction === 'email') {
+                showEmail();
+            } else if (currentAction === 'phone') {
+                showPhone();
             }
-            return String.fromCharCode(code);
+            currentAction = null;
+        }
+
+        function caesarShift(str, amount) {
+            return str.replace(/[a-zA-Z0-9]/g, (char) => {
+                let code = char.charCodeAt(0);
+                if (char >= 'a' && char <= 'z') {
+                    code = ((code - 97 + amount + 26) % 26) + 97;
+                } else if (char >= 'A' && char <= 'Z') {
+                    code = ((code - 65 + amount + 26) % 26) + 65;
+                } else if (char >= '0' && char <= '9') {
+                    code = ((code - 48 + amount + 10) % 10) + 48;
+                }
+                return String.fromCharCode(code);
+            });
+        }
+
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = "Copied!";
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 1500);
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
+            });
+        }
+    </script>
+
+    <script>
+        const circle = document.getElementById('circle');
+
+        function centerCircle() {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            circle.style.left = `${centerX}px`;
+            circle.style.top = `${centerY}px`;
+        }
+
+        centerCircle();
+
+        document.addEventListener('mousemove', (e) => {
+            circle.style.left = `${e.pageX}px`;
+            circle.style.top = `${e.pageY}px`;
         });
-    }
 
-    // Function to copy text to clipboard and show "Copied!" feedback
-    function copyToClipboard(text, button) {
-        navigator.clipboard.writeText(text).then(() => {
-            const originalText = button.textContent;
-            button.textContent = "Copied!";
-            setTimeout(() => {
-                button.textContent = originalText;
-            }, 1500);
-        }).catch(err => {
-            console.error("Failed to copy: ", err);
-        });
-    }
-</script>
-
-    <!-- Existing CAPTCHA, Email, and Phone Button JavaScript here -->
-
-<!-- Circle hover effect JavaScript at the bottom -->
-<script>
-    const circle = document.getElementById('circle');
-
-    function centerCircle() {
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        circle.style.left = `${centerX}px`;
-        circle.style.top = `${centerY}px`;
-    }
-
-    centerCircle();
-
-    document.addEventListener('mousemove', (e) => {
-        circle.style.left = `${e.pageX}px`;
-        circle.style.top = `${e.pageY}px`;
-    });
-
-    window.addEventListener('resize', centerCircle);
-</script>
+        window.addEventListener('resize', centerCircle);
+    </script>
 
 </body>
 </html>
