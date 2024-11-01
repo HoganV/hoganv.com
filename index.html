@@ -34,77 +34,79 @@
     <!-- Circle hover effect -->
     <div id="circle"></div>
 
-    <script>
-        let isCaptchaVerified = false; // Flag to prevent re-triggering CAPTCHA after it's verified
-        let currentAction = null; // Track which action triggered CAPTCHA: 'email' or 'phone'
+<script>
+    // Encoded values (Caesar shift by 3)
+    const encodedEmail = "krjdq@krjdqy.frp"; // Encoded "hogan@hoganv.com"
+    const encodedPhone = "(735) 785-5220";   // Encoded "(402) 682-2997"
+    
+    let isCaptchaVerified = false; // Flag for CAPTCHA verification
+    let currentAction = null; // Track which action triggered CAPTCHA
 
-        // Show email after CAPTCHA verification
-        function showEmail() {
-            const emailButton = document.getElementById('email-button');
-            if (isCaptchaVerified) {
-                emailButton.textContent = "hogan@hoganv.com";
-                emailButton.onclick = () => copyToClipboard("hogan@hoganv.com", emailButton);
-            } else {
-                currentAction = 'email';
-                showCaptcha();
+    // Function to show email after CAPTCHA verification
+    function showEmail() {
+        const emailButton = document.getElementById('email-button');
+        if (isCaptchaVerified) {
+            const decodedEmail = caesarShift(encodedEmail, -3); // Decode email
+            emailButton.textContent = decodedEmail;
+            emailButton.onclick = () => copyToClipboard(decodedEmail, emailButton);
+        } else {
+            currentAction = 'email';
+            showCaptcha();
+        }
+    }
+
+    // Function to show phone after CAPTCHA verification
+    function showCaptcha() {
+        const phoneButton = document.getElementById('phone-button');
+        if (isCaptchaVerified) {
+            const decodedPhone = caesarShift(encodedPhone, -3); // Decode phone
+            phoneButton.textContent = decodedPhone;
+            phoneButton.onclick = () => copyToClipboard(decodedPhone, phoneButton);
+        } else {
+            document.getElementById('recaptcha-box').style.display = 'flex';
+        }
+    }
+
+    // CAPTCHA success callback function
+    function captchaCallback() {
+        document.getElementById('recaptcha-box').style.display = 'none';
+        isCaptchaVerified = true; // Mark CAPTCHA as verified
+
+        if (currentAction === 'email') {
+            showEmail();
+        } else if (currentAction === 'phone') {
+            showCaptcha();
+        }
+        currentAction = null;
+    }
+
+    // Function to apply Caesar shift to alphanumeric characters only
+    function caesarShift(str, amount) {
+        return str.replace(/[a-zA-Z0-9]/g, (char) => {
+            let code = char.charCodeAt(0);
+            if (char >= 'a' && char <= 'z') {
+                code = ((code - 97 + amount + 26) % 26) + 97;
+            } else if (char >= 'A' && char <= 'Z') {
+                code = ((code - 65 + amount + 26) % 26) + 65;
+            } else if (char >= '0' && char <= '9') {
+                code = ((code - 48 + amount + 10) % 10) + 48;
             }
-        }
-
-        // Show phone number after CAPTCHA verification
-        function showCaptcha() {
-            const phoneButton = document.getElementById('phone-button');
-            if (isCaptchaVerified) {
-                phoneButton.textContent = "(402) 682-2997";
-                phoneButton.onclick = () => copyToClipboard("(402) 682-2997", phoneButton);
-            } else {
-                document.getElementById('recaptcha-box').style.display = 'flex';
-            }
-        }
-
-        // CAPTCHA success callback
-        function captchaCallback() {
-            document.getElementById('recaptcha-box').style.display = 'none';
-            isCaptchaVerified = true; // Mark CAPTCHA as verified
-
-            if (currentAction === 'email') {
-                showEmail();
-            } else if (currentAction === 'phone') {
-                showCaptcha();
-            }
-            currentAction = null; // Reset action tracking
-        }
-
-        // Copy text to clipboard and show temporary "Copied!" message
-        function copyToClipboard(text, button) {
-            navigator.clipboard.writeText(text).then(() => {
-                const originalText = button.textContent;
-                button.textContent = "Copied!";
-                setTimeout(() => {
-                    button.textContent = originalText;
-                }, 1500); // Display "Copied!" for 1.5 seconds
-            }).catch(err => {
-                console.error("Failed to copy: ", err);
-            });
-        }
-
-        // Circle hover effect script
-        const circle = document.getElementById('circle');
-
-        function centerCircle() {
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            circle.style.left = `${centerX}px`;
-            circle.style.top = `${centerY}px`;
-        }
-
-        centerCircle();
-
-        document.addEventListener('mousemove', (e) => {
-            circle.style.left = `${e.pageX}px`;
-            circle.style.top = `${e.pageY}px`;
+            return String.fromCharCode(code);
         });
+    }
 
-        window.addEventListener('resize', centerCircle);
-    </script>
+    // Function to copy text to clipboard and show "Copied!" feedback
+    function copyToClipboard(text, button) {
+        navigator.clipboard.writeText(text).then(() => {
+            const originalText = button.textContent;
+            button.textContent = "Copied!";
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 1500);
+        }).catch(err => {
+            console.error("Failed to copy: ", err);
+        });
+    }
+</script>
 </body>
 </html>
