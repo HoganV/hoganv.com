@@ -35,9 +35,9 @@
     <div id="circle"></div>
 
 <script>
-    // Encoded values (Caesar shift by 3)
-    const encodedEmail = "krjdq@krjdqy.frp"; // Encoded "hogan@hoganv.com"
-    const encodedPhone = "(735) 785-5220";   // Encoded "(402) 682-2997"
+    // Encoded values 
+    const encodedEmail = "krjdq@krjdqy.frp";
+    const encodedPhone = "(735) 915-5220"; 
     
     let isCaptchaVerified = false; // Flag for CAPTCHA verification
     let currentAction = null; // Track which action triggered CAPTCHA
@@ -108,5 +108,29 @@
         });
     }
 </script>
+
+    <!-- Existing CAPTCHA, Email, and Phone Button JavaScript here -->
+
+<!-- Circle hover effect JavaScript at the bottom -->
+<script>
+    const circle = document.getElementById('circle');
+
+    function centerCircle() {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        circle.style.left = `${centerX}px`;
+        circle.style.top = `${centerY}px`;
+    }
+
+    centerCircle();
+
+    document.addEventListener('mousemove', (e) => {
+        circle.style.left = `${e.pageX}px`;
+        circle.style.top = `${e.pageY}px`;
+    });
+
+    window.addEventListener('resize', centerCircle);
+</script>
+
 </body>
 </html>
