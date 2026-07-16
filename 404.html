@@ -1,50 +1,47 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>404 - Page Not Found</title>
-    <link rel="stylesheet" href="styles.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9656842316705627"
-     crossorigin="anonymous"></script>
+
+```
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
+
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>404 - Page Not Found</title>
+
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/styles.css">
+
+<script src="/life-background.js" defer></script>
+
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9656842316705627"
+    crossorigin="anonymous"
+></script>
+```
+
 </head>
+
 <body>
-    <div class="container">
+    <main class="container">
         <h1>404 - Page Not Found</h1>
-        <p>Oops! The page you're looking for doesn't exist.</p>
 
-        <div class="link-container">
-            <a href="/" class="btn">Go to Homepage</a>
-        </div>
+```
+    <p>Oops! The page you're looking for doesn't exist.</p>
+
+    <div class="link-container">
+        <a href="/" class="btn">
+            Go to Homepage
+        </a>
     </div>
+</main>
+```
 
-    <!-- Black circle for hover effect -->
-    <div id="circle"></div>
-
-    <script>
-        // Get the circle element
-        const circle = document.getElementById('circle');
-
-        // Function to center the circle initially
-        function centerCircle() {
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            circle.style.left = `${centerX}px`;
-            circle.style.top = `${centerY}px`;
-        }
-
-        // Center the circle on page load
-        centerCircle();
-
-        // Update circle position on mousemove
-        document.addEventListener('mousemove', (e) => {
-            circle.style.left = `${e.pageX}px`;
-            circle.style.top = `${e.pageY}px`;
-        });
-
-        // Adjust circle position if the window is resized
-        window.addEventListener('resize', centerCircle);
-    </script>
 </body>
 </html>
