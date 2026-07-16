@@ -21,6 +21,18 @@
 
     canvas.id = "life-background";
     canvas.setAttribute("aria-hidden", "true");
+    
+    Object.assign(canvas.style, {
+        position: "fixed",
+        inset: "0",
+        display: "block",
+        width: "100vw",
+        height: "100vh",
+        margin: "0",
+        padding: "0",
+        zIndex: "0",
+        pointerEvents: "none"
+    });
 
     document.body.prepend(canvas);
 
@@ -60,8 +72,11 @@
     }
 
     function initializeLife() {
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
+        const viewportWidth =
+            document.documentElement.clientWidth || window.innerWidth;
+        
+        const viewportHeight =
+            document.documentElement.clientHeight || window.innerHeight;
         const pixelRatio = Math.min(
             window.devicePixelRatio || 1,
             2
@@ -69,9 +84,6 @@
 
         canvas.width = Math.floor(viewportWidth * pixelRatio);
         canvas.height = Math.floor(viewportHeight * pixelRatio);
-
-        canvas.style.width = `${viewportWidth}px`;
-        canvas.style.height = `${viewportHeight}px`;
 
         context.setTransform(
             pixelRatio,
